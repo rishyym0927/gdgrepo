@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Random Quotes & GIFs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 20px auto;
+            text-align: center;
+            padding: 20px;
+            background-color: rgb(230, 142, 142);
+        }
+        .quote-container {
+            background-color: rgb(162, 193, 234);
+            border: 2px solid #807b7b;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        #quote {
+            font-style: italic;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        #author {
+            text-align: right;
+            font-weight: bold;
+            color: #231e1e;
+        }
+        #gif {
+            max-width: 100%;
+            max-height: 300px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        button {
+            background-color: #8753e8;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #563e97;
+        }
+    </style>
+</head>
+<body>
+    <h1>Quote & GIF </h1>
+    <div class="quote-container">
+        <div id="quote"></div>
+        <div id="author"></div>
+    </div>
+    <img id="gif" src="" alt="Random GIF">
+    <br>
+    <button onclick="generateContent()">New Quote & GIF</button>
+
+    <script>
+        async function generateContent() {
+           
+            const quoteResponse = await fetch('https://dummyjson.com/quotes/random');
+            const quoteData = await quoteResponse.json();
+            document.getElementById('quote').textContent = `"${quoteData.quote}"`;
+            document.getElementById('author').textContent = `- ${quoteData.author}`;
+
+        
+            const gifResponse = await fetch('https://api.giphy.com/v1/gifs/random?api_key=6Q48LJHDwiEt8sh2uFNVF0SB326ImrcI&tag=funny&rating=g');
+            const gifData = await gifResponse.json();
+            document.getElementById('gif').src = gifData.data.images.downsized.url;
+        }
+
+        generateContent();
+    </script>
+</body>
+</html>
